@@ -23,9 +23,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
   width: 100vw;
 }
@@ -36,6 +33,11 @@ body {
   border-radius: 0.5rem;
   min-width: 30rem;
   box-shadow: #fff 0px 5px 15px;
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .page-title {
@@ -72,4 +74,71 @@ body {
 
 .submit-btn:hover {
   opacity: 50%;
+}
+
+.userInfo {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.username {
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.signout-btn {
+  background-color: white;
+  color: black;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+.signout-btn:hover {
+  opacity: 50%;
+}
+
+.todo-container {
+  width: 70%;
+  margin: 0 auto;
+  padding: 2rem 0rem;
+}
+
+.tabContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  border-bottom: 1px solid #3f3f3f;
+  padding-bottom: 1rem;
+}
+
+.tab-btn {
+  cursor: pointer;
+  background: #3f3f3f;
+  color: black;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+}
+
+.selected-tab {
+  background: white;
+}
+
+.box {
+  margin-top: 2rem;
+  border: 1px solid;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+}
+
+.tab-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
