@@ -12,11 +12,20 @@ interface AddTodoI {
   description: string;
 }
 
+interface MyTodosI {
+  description: string;
+  email: string;
+  status: string;
+  title: string;
+  _id: string;
+}
+
 const Todo = () => {
   const { data: userData, status } = useSession();
   const [selectedTab, setSelectedTab] = useState(Tabs.AddTodo);
   const [addTodo, setAddTodo] = useState<AddTodoI>({} as AddTodoI);
   const [pending, setPending] = useState<boolean>(false);
+  const [myTodos, setMyTodos] = useState<MyTodosI[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddTodo({ ...addTodo, [e.target.name]: e.target.value });
@@ -28,7 +37,8 @@ const Todo = () => {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-      console.log({ result }, "result");
+      const data = await result.json();
+      setMyTodos(data?.data);
     }
   };
 
@@ -60,10 +70,6 @@ const Todo = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTodo();
-  }, []);
-
   return (
     <div className="todo-container">
       <div className="tabContainer">
@@ -79,7 +85,10 @@ const Todo = () => {
           className={`tab-btn ${
             selectedTab === Tabs.MyTodo ? "selected-tab" : ""
           }`}
-          onClick={() => setSelectedTab(Tabs.MyTodo)}
+          onClick={() => {
+            setSelectedTab(Tabs.MyTodo);
+            fetchTodo();
+          }}
         >
           {Tabs.MyTodo}
         </button>
@@ -119,6 +128,16 @@ const Todo = () => {
       {selectedTab === Tabs.MyTodo && (
         <div className="my-todo box">
           <p className="tab-title">My Todo</p>
+          <div>
+            {myTodos?.map((todo: MyTodosI) => {
+              return (
+                <div key={todo._id}>
+                  <h5>{todo.title}</h5>
+                  <p>{todo.description}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

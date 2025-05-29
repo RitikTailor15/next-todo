@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import connectToDB from "@/lib/connectToDB";
 import Todo from "@/models/todo";
+import User from "@/models/user";
 
 export async function POST(request: Request) {
   const { title, description, email } = await request.json();
@@ -30,7 +31,17 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
-  const data = await request.json();
-  console.log(request, "data");
+export async function GET(request: NextRequest) {
+  const email = request.nextUrl.searchParams.get("email");
+  if (!email) {
+    return NextResponse.json({ message: "Email is required" }, { status: 400 });
+  }
+
+  await connectToDB();
+  const user = await User.findOne({ email });
+  if (!user) {
+    return NextResponse.json({ message: "User not found" }, { status: 400 });
+  }
+  const todos = await Todo.find({ email });
+  return NextResponse.json({ data: todos });
 }
